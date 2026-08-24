@@ -1,0 +1,13 @@
+Render settings for this project
+
+Build Command:
+pip install -r requirements.txt
+
+Start Command:
+uvicorn main:app --host 0.0.0.0 --port $PORT
+
+Login:
+Username: BALESHWAR
+Password: GAMING
+
+Keep the Pb2 folder in the project root.
