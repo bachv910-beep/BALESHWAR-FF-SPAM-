@@ -32,3 +32,4 @@ rich
 colorama
 schedule
 humanize
+protobuf-decoder==0.4.0
