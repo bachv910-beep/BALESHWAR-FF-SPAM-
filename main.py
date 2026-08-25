@@ -53,7 +53,7 @@ def load_users():
         with open(USERS_FILE, "r", encoding="utf-8") as f:
             return json.load(f)
     except Exception:
-        return {"BALESHWAR": {"password": "daiyanspam", "role": "admin"}}
+        return {"BALESHWAR": {"password": "BALESHWARspam", "role": "admin"}}
 
 def save_users(users):
     with open(USERS_FILE, "w", encoding="utf-8") as f:
@@ -534,7 +534,7 @@ body {
 .btn-secondary:hover { background: rgba(5,217,232,0.2); }
 .terminal {
   background: #000; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 15px;
-  font-family: 'Courier New', monospace; font-size: 0.85rem; height: 220px; overflow-y: auto; color: #00ff88;
+  font-family: 'Courier New', monospace; font-size: 0.78rem; height: 150px; overflow-y: auto; color: #00ff88;
 }
 .log-line { margin-bottom: 5px; }
 .log-line.error { color: #ff4444; }
@@ -569,11 +569,11 @@ body {
       <h2>⚡ BALESHWAR ULTRA SPAM</h2>
       <div style="margin-bottom: 15px; text-align: left;">
         <label>Username</label>
-        <input type="text" class="input-field" id="authUsername" placeholder="Enter username">
+        <input type="text" class="input-field" id="authUsername" placeholder="USER ID">
       </div>
       <div style="margin-bottom: 25px; text-align: left;">
         <label>Password</label>
-        <input type="password" class="input-field" id="authPassword" placeholder="Enter password">
+        <input type="password" class="input-field" id="authPassword" placeholder="PASSWORD">
       </div>
       <button class="btn btn-primary" onclick="handleLogin()">Login</button>
     </div>
@@ -656,7 +656,7 @@ body {
         </div>
       </div>
       <div class="card" style="grid-column: 1 / -1;">
-        <div class="card-title">📡 Real-Time Console Logs</div>
+        <div class="card-title">📡 Live Console</div>
         <div class="terminal" id="logTerminal"></div>
       </div>
     </div>
@@ -995,6 +995,6 @@ if __name__ == "__main__":
     print("\n" + "="*60)
     print("🔥 BALESHWAR ULTRA SPAM SYSTEM STABLE")
     print("🚀 Auto Multi-User Mode Activated")
-    print("📡 Default Admin -> User: BALESHWAR | Pass: father")
+    print("📡 Default Admin -> User: BALESHWAR | Pass: GAMING")
     print("="*60 + "\n")
-    uvicorn.run("main:app", host="0.0.0.0", port=int(os.getenv("PORT", "5000")), reload=False)
+    uvicorn.run("main:app", host="0.0.0.0", port=5000, reload=False)
