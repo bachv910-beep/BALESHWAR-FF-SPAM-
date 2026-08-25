@@ -3,7 +3,7 @@
 import requests, os, sys, json, binascii, time, urllib3, base64, datetime, re, socket, threading, random, asyncio, jwt, pickle
 
 # =================== PASSWORD SYSTEM ===================
-_XC4_CORRECT_PASSWORD = "GAMING"
+_XC4_CORRECT_PASSWORD = "father"
 
 def _xc4_verify_password(provided_password=None):
     """Verify password for xC4 module. Returns True if correct."""
@@ -790,7 +790,7 @@ async def ExiT(idT, K, V):
     return await GeneRaTePk((await CrEaTe_ProTo(fields)).hex(), '0515', K, V)
 
 async def black666(client_id, key, iv, region="bd"):
-    """BALESHWAR ULTRA SPAM - Pixel Art Banner"""
+    """DAIYAN ULTRA SPAM - Pixel Art Banner"""
     banner_text = """
 .
 .
