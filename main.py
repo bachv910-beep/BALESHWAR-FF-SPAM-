@@ -465,7 +465,13 @@ async def dashboard_ui():
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@400;500;600;700&display=swap');
 :root{--g:#00ff55;--g2:#20ff7a;--bg:#020403;--panel:rgba(2,10,5,.88);--line:rgba(0,255,85,.28);--muted:#8aa997;--red:#ff4d5e;--yellow:#ffd34d}
 *{box-sizing:border-box;margin:0;padding:0}html,body{min-height:100%;font-family:Rajdhani,sans-serif;background:#000;color:#eaffef}body{overflow-x:hidden}
-#matrix{position:fixed;inset:0;width:100%;height:100%;z-index:0;background:#000}
+#matrix{position:fixed;inset:0;width:100%;height:100%;z-index:0;background:#000;opacity:.9;pointer-events:none}
+.card{background:rgba(2,10,5,.70)}
+.auth-card{background:rgba(2,10,5,.76)}
+.stat,.target-card{background:rgba(0,0,0,.38)}
+.terminal{background:rgba(0,0,0,.68)}
+.topbar,.side{background:rgba(2,10,5,.62)}
+@media(max-width:480px){.card{backdrop-filter:blur(4px)}}
 body:after{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(circle at 50% 10%,rgba(0,255,80,.09),transparent 42%),linear-gradient(rgba(0,0,0,.08),rgba(0,0,0,.25))}
 .container{position:relative;z-index:2;max-width:1280px;margin:auto;padding:18px}
 .brand{text-align:center;margin:6px 0 20px}.brand img{width:150px;height:150px;object-fit:cover;border-radius:50%;border:2px solid var(--g);box-shadow:0 0 28px rgba(0,255,85,.55)}
