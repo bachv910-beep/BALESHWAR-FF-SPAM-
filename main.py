@@ -44,7 +44,7 @@ user_states = {}
 def load_users():
     if not os.path.exists(USERS_FILE):
         default_users = {
-            "BALESHWAR": {"password": "8968335803", "role": "admin"}
+            "BALESHWAR": {"password": "@@", "role": "admin"}
         }
         with open(USERS_FILE, "w", encoding="utf-8") as f:
             json.dump(default_users, f, indent=4)
@@ -53,7 +53,7 @@ def load_users():
         with open(USERS_FILE, "r", encoding="utf-8") as f:
             return json.load(f)
     except Exception:
-        return {"BALESHWAR": {"password": "8968335803", "role": "admin"}}
+        return {"BALESHWAR": {"password": "@@", "role": "admin"}}
 
 def save_users(users):
     with open(USERS_FILE, "w", encoding="utf-8") as f:
@@ -465,13 +465,7 @@ async def dashboard_ui():
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@400;500;600;700&display=swap');
 :root{--g:#00ff55;--g2:#20ff7a;--bg:#020403;--panel:rgba(2,10,5,.88);--line:rgba(0,255,85,.28);--muted:#8aa997;--red:#ff4d5e;--yellow:#ffd34d}
 *{box-sizing:border-box;margin:0;padding:0}html,body{min-height:100%;font-family:Rajdhani,sans-serif;background:#000;color:#eaffef}body{overflow-x:hidden}
-#matrix{position:fixed;inset:0;width:100%;height:100%;z-index:0;background:#000;opacity:.9;pointer-events:none}
-.card{background:rgba(2,10,5,.70)}
-.auth-card{background:rgba(2,10,5,.76)}
-.stat,.target-card{background:rgba(0,0,0,.38)}
-.terminal{background:rgba(0,0,0,.68)}
-.topbar,.side{background:rgba(2,10,5,.62)}
-@media(max-width:480px){.card{backdrop-filter:blur(4px)}}
+#matrix{position:fixed;inset:0;width:100%;height:100%;z-index:0;background:#000}
 body:after{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(circle at 50% 10%,rgba(0,255,80,.09),transparent 42%),linear-gradient(rgba(0,0,0,.08),rgba(0,0,0,.25))}
 .container{position:relative;z-index:2;max-width:1280px;margin:auto;padding:18px}
 .brand{text-align:center;margin:6px 0 20px}.brand img{width:150px;height:150px;object-fit:cover;border-radius:50%;border:2px solid var(--g);box-shadow:0 0 28px rgba(0,255,85,.55)}
@@ -678,6 +672,6 @@ if __name__ == "__main__":
     print("\n" + "="*60)
     print("🔥 BALESHWAR ULTRA SPAM SYSTEM STABLE")
     print("🚀 Auto Multi-User Mode Activated")
-    print("📡 Default Admin -> User: BALESHWAR | Pass: 8968335803")
+    print("📡 Default Admin -> User: BALESHWAR | Pass: @@")
     print("="*60 + "\n")
     uvicorn.run("main:app", host="0.0.0.0", port=int(os.getenv("PORT", "5000")), reload=False)
