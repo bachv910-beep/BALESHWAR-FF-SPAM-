@@ -561,10 +561,13 @@ function speakHacker(text){
   try{
     if(!('speechSynthesis' in window))return;
     window.speechSynthesis.cancel();
-    const u=new SpeechSynthesisUtterance(text);u.rate=1.02;u.pitch=1.12;u.volume=.72;
+    const u=new SpeechSynthesisUtterance(text);
+    u.rate=0.94;
+    u.pitch=1.02;
+    u.volume=1.0;
     const voices=window.speechSynthesis.getVoices();
-    const female=voices.find(v=>/female|zira|samantha|victoria|karen|moira|google uk english female|google us english/i.test(v.name+' '+v.voiceURI));
-    if(female)u.voice=female;
+    const preferred=voices.find(v=>/Google US English|Google UK English Female|Microsoft Zira|Samantha|Victoria|Karen|Moira/i.test(v.name+' '+v.voiceURI));
+    if(preferred)u.voice=preferred;
     window.speechSynthesis.speak(u);
   }catch(e){}
 }
@@ -574,16 +577,27 @@ document.addEventListener('click',function(ev){
   const el=ev.target.closest('button,a,select,input[type="checkbox"],input[type="submit"]');
   if(!el)return;
   const label=(el.innerText||el.getAttribute('aria-label')||el.getAttribute('placeholder')||el.value||'').trim();
-  const line=/LOGIN/i.test(label)?'Access request received.':/LOGOUT/i.test(label)?'Session closing.':/START/i.test(label)?'Command received.':/STOP/i.test(label)?'Stop command received.':/ADMIN/i.test(label)?'Admin console opened.':hackerVoiceLines[Math.floor(Math.random()*hackerVoiceLines.length)];
-  hackerFeedback(line);
+  let line=null;
+  if(/START/i.test(label)) line='Spam System Started.';
+  else if(/STOP/i.test(label)) line='Spam System Stopped.';
+  else if(/ADMIN/i.test(label)) line='Admin Console Open.';
+  else if(/LOGOUT/i.test(label)) line='Session Closed.';
+  else if(/SETTINGS?/i.test(label)) line='Settings Open.';
+  if(line)hackerFeedback(line);
 },true);
-document.addEventListener('change',function(ev){if(ev.target.matches('select,input[type="checkbox"]')){const label=ev.target.id==='region'?'Region selected.':'Setting updated.';hackerFeedback(label);}},true);
+document.addEventListener('change',function(ev){
+  if(ev.target.matches('select,input[type="checkbox"]')){
+    const label=ev.target.id==='region'?'Region Selected.':'Setting Updated.';
+    hackerFeedback(label);
+  }
+},true);
+
 // Always-running Matrix background animation.
 (()=>{const c=document.getElementById('matrix'),x=c.getContext('2d');let w,h,cols,ys;const font=14;function size(){w=c.width=innerWidth*devicePixelRatio;h=c.height=innerHeight*devicePixelRatio;c.style.width=innerWidth+'px';c.style.height=innerHeight+'px';x.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);cols=Math.ceil(innerWidth/font);ys=Array(cols).fill(0).map(()=>Math.random()*innerHeight/font)}function draw(){x.fillStyle='rgba(0,0,0,.075)';x.fillRect(0,0,innerWidth,innerHeight);x.font=font+'px monospace';for(let i=0;i<cols;i++){const ch=String(Math.floor(Math.random()*2));x.fillStyle=Math.random()>.92?'#b8ffcb':'#00a83a';x.fillText(ch,i*font,ys[i]*font);if(ys[i]*font>innerHeight&&Math.random()>.975)ys[i]=0;ys[i]+=.65}requestAnimationFrame(draw)}addEventListener('resize',size);size();draw()})();
 
 document.querySelectorAll('.badge-option').forEach(opt=>opt.addEventListener('click',function(){if(this.dataset.value==='all'){document.querySelectorAll('.badge-option').forEach(o=>o.classList.remove('active'));this.classList.add('active');selectedBadges=['all']}else{document.querySelector('.badge-option[data-value="all"]').classList.remove('active');this.classList.toggle('active');selectedBadges=Array.from(document.querySelectorAll('.badge-option.active')).map(o=>o.dataset.value);if(!selectedBadges.length){document.querySelector('.badge-option[data-value="all"]').classList.add('active');selectedBadges=['all']}}}));
 function toast(msg,type='success'){const d=document.createElement('div');d.className='toast';d.textContent=(type==='error'?'❌ ':'✅ ')+msg;document.getElementById('toastContainer').appendChild(d);setTimeout(()=>d.remove(),3500)}
-async function handleLogin(){const u=document.getElementById('authUsername').value.trim(),p=document.getElementById('authPassword').value.trim();if(!u||!p)return toast('Missing inputs','error');try{const r=await fetch(`/auth/login?username=${encodeURIComponent(u)}&password=${encodeURIComponent(p)}`,{method:'POST'}),d=await r.json();if(r.ok){currentUser=u;currentRole=d.role||'user';initDashboard()}else toast(d.detail||'Authentication failed','error')}catch(e){toast('Server connection error','error')}}
+async function handleLogin(){const u=document.getElementById('authUsername').value.trim(),p=document.getElementById('authPassword').value.trim();if(!u||!p)return toast('Missing inputs','error');try{const r=await fetch(`/auth/login?username=${encodeURIComponent(u)}&password=${encodeURIComponent(p)}`,{method:'POST'}),d=await r.json();if(r.ok){currentUser=u;currentRole=d.role||'user';const msg=currentRole==='admin'?'Admin Login Successful.':'User Login Successful.';toast(msg,'success');hackerFeedback(msg);setTimeout(()=>initDashboard(),180)}else{const msg='Login Failed. Password Incorrect.';toast(msg,'error');hackerFeedback(msg)}}catch(e){const msg='Login Failed. Server Connection Error.';toast(msg,'error');hackerFeedback(msg)}}
 async function handleLogout(){await fetch('/auth/logout');currentUser=null;document.getElementById('authScreen').style.display='flex';document.getElementById('mainDashboard').style.display='none'}
 function initDashboard(){document.getElementById('authScreen').style.display='none';document.getElementById('mainDashboard').style.display='block';document.getElementById('sessUserDisplay').textContent=currentUser;if(currentRole==='admin'){document.getElementById('adminToggle').style.display='inline-block';}else{document.getElementById('adminToggle').style.display='none';document.getElementById('adminPanel').style.display='none'}fetchStatus()}
 function toggleAdminPanel(){if(currentRole!=='admin')return;const p=document.getElementById('adminPanel');p.style.display=p.style.display==='block'?'none':'block';if(p.style.display==='block')loadAdminUserList()}
@@ -602,8 +616,10 @@ async def login(username: str = Query(...), password: str = Query(...), response
     users = load_users()
     if username in users and users[username]["password"] == password:
         response.set_cookie(key="session_user", value=username, httponly=True)
-        return {"status": "success", "role": users[username].get("role", "user")}
-    raise HTTPException(status_code=400, detail="Invalid username or password.")
+        role = users[username].get("role", "user")
+        message = "Admin Login Successful." if role == "admin" else "User Login Successful."
+        return {"status": "success", "role": role, "message": message}
+    raise HTTPException(status_code=400, detail="Login Failed. Password Incorrect.")
 
 @app.get("/auth/logout")
 async def logout(response: Response):
